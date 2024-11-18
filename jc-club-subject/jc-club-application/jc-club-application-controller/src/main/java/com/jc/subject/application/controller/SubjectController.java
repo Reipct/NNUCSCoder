@@ -88,8 +88,7 @@ public class SubjectController {
                 log.info("SubjectController.querySubjectInfo.dto.{}", JSON.toJSONString(subjectInfoDTO));
             }
             Preconditions.checkNotNull(subjectInfoDTO.getId(), "题目id不能为空");
-            Preconditions.checkNotNull(subjectInfoDTO.getCategoryId(), "题目分类id不能为空");
-            Preconditions.checkNotNull(subjectInfoDTO.getLabelId(), "题目标签id不能为空");
+
 
             SubjectInfoBO subjectInfoBO = SubjectInfoDTOConverter.INSTANCE.convertDTOToBO(subjectInfoDTO);
             SubjectInfoBO boresult=subjectInfoDomainService.querySubjectInfo(subjectInfoBO);
@@ -97,7 +96,7 @@ public class SubjectController {
             return Result.ok(result);
         } catch (Exception e) {
             log.error("subjectInfoDTO.querySubjectInfo.error.{}", e.getMessage(), e);
-            return Result.fail("查询题目失败");
+            return Result.fail("查询题目详情失败");
         }
     }
 }

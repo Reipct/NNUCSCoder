@@ -3,7 +3,11 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/jc-club-subject/jc-club-application/jc-club-application-controller/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/jc-club-subject/jc-club-application/jc-club-application-controller/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jc-club-subject/jc-club-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jc-club-subject/jc-club-common/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/jc-club-subject/jc-club-infra/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/jc-club-subject/jc-club-infra/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jc-club-subject/jc-club-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jc-club-subject/jc-club-starter/src/main/resources" charset="UTF-8" />
   </component>
 </project>

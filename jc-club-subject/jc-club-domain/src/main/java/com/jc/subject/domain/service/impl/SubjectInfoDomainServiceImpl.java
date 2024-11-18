@@ -10,8 +10,10 @@ import com.jc.subject.domain.handler.subject.SubjectTypeHandler;
 import com.jc.subject.domain.handler.subject.SubjectTypeHandlerFactory;
 import com.jc.subject.domain.service.SubjectInfoDomainService;
 import com.jc.subject.infra.basic.entity.SubjectInfo;
+import com.jc.subject.infra.basic.entity.SubjectLabel;
 import com.jc.subject.infra.basic.entity.SubjectMapping;
 import com.jc.subject.infra.basic.service.SubjectInfoService;
+import com.jc.subject.infra.basic.service.SubjectLabelService;
 import com.jc.subject.infra.basic.service.SubjectMappingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -31,6 +34,9 @@ public class SubjectInfoDomainServiceImpl implements SubjectInfoDomainService {
     private SubjectInfoService subjectInfoService;
     @Resource
     private SubjectMappingService subjectMappingService;
+
+    @Resource
+    private SubjectLabelService subjectLabelService;
     @Resource
     private SubjectTypeHandlerFactory subjectTypeHandlerFactory;
 
@@ -88,11 +94,19 @@ public class SubjectInfoDomainServiceImpl implements SubjectInfoDomainService {
     @Override
     public SubjectInfoBO querySubjectInfo(SubjectInfoBO subjectInfoBO) {
         SubjectInfo subjectInfo = subjectInfoService.queryById(subjectInfoBO.getId());
-        Integer subjectType = subjectInfo.getSubjectType();
         SubjectTypeHandler handler = subjectTypeHandlerFactory.getHandler(subjectInfo.getSubjectType());
         SubjectOptionBO OptionBO = handler.query(subjectInfo.getId().intValue());
         SubjectInfoBO bo = SubjectInfoConverter.INSTANCE.convertOptionAndInfoToBO(OptionBO, subjectInfo);
-        List<String> labelNameList = new ArrayList<>();
+
+        SubjectMapping subjectMapping = new SubjectMapping();
+        subjectMapping.setSubjectId(subjectInfo.getId());
+        subjectMapping.setIsDeleted(IsDeleteFlagEnum.UN_DELETED.getCode());
+        List<SubjectMapping> subjectMappingList = subjectMappingService.queryLabelId(subjectMapping);
+        List<Long> labelIdList = subjectMappingList.stream().map(SubjectMapping::getLabelId).collect(Collectors.toList());
+        List<SubjectLabel> LabelList = subjectLabelService.batchQueryById(labelIdList);
+        List<String> labelNameList = LabelList.stream().map(SubjectLabel::getLabelName).collect(Collectors.toList());
+
+        //转换
         bo.setLabelName(labelNameList);
         return bo;
     }

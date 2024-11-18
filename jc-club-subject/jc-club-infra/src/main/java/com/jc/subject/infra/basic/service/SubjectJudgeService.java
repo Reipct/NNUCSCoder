@@ -2,6 +2,8 @@ package com.jc.subject.infra.basic.service;
 
 import com.jc.subject.infra.basic.entity.SubjectJudge;
 
+import java.util.List;
+
 /**
  * 判断题(SubjectJudge)表服务接口
  *
@@ -42,5 +44,11 @@ public interface SubjectJudgeService {
      * @return 是否成功
      */
     boolean deleteById(Long id);
-
+    /**
+     * 判断题条件查询
+     *
+     * @param subjectJudge 主键
+     * @return 是否成功
+     */
+    List<SubjectJudge> queryByCondition(SubjectJudge subjectJudge);
 }

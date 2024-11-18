@@ -2,6 +2,7 @@ package com.jc.subject.domain.handler.subject;
 
 import com.jc.subject.common.enums.IsDeleteFlagEnum;
 import com.jc.subject.common.enums.SubjectInfoTypeEnum;
+import com.jc.subject.domain.convert.JudgeSubjectConverter;
 import com.jc.subject.domain.entity.SubjectAnswerBO;
 import com.jc.subject.domain.entity.SubjectInfoBO;
 import com.jc.subject.domain.entity.SubjectOptionBO;
@@ -10,6 +11,7 @@ import com.jc.subject.infra.basic.service.SubjectJudgeService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 判断题目的策略类
@@ -40,7 +42,15 @@ public class JudgeTypeHandler implements SubjectTypeHandler {
 
     @Override
     public SubjectOptionBO query(int subjectId) {
-        return null;
+        SubjectJudge subjectJudge=new SubjectJudge();
+        subjectJudge.setSubjectId(Long.valueOf(subjectId));
+        List<SubjectJudge> result=subjectJudgeService.queryByCondition(subjectJudge);
+
+        List<SubjectAnswerBO> subjectAnswerBOList= JudgeSubjectConverter.INSTANCE.convertEntityToBOList(result);
+        SubjectOptionBO subjectOptionBO=new SubjectOptionBO();
+        subjectOptionBO.setOptionList(subjectAnswerBOList);
+
+        return subjectOptionBO;
     }
 
 }
