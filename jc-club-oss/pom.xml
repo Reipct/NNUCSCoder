@@ -19,6 +19,7 @@
         <spring-cloud.version>2020.0.6</spring-cloud.version>
     </properties>
 
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -118,6 +119,5 @@
             </snapshots>
         </repository>
     </repositories>
-
 
 </project>
