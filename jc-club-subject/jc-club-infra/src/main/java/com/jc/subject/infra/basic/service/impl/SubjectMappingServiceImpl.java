@@ -66,13 +66,19 @@ public class SubjectMappingServiceImpl implements SubjectMappingService {
         return this.subjectMappingDao.deleteById(id) > 0;
     }
 
+    /**
+     * 通过主键查询标签
+     *
+     * @param subjectMapping 主键
+     * @return 是否成功
+     */
     @Override
     public List<SubjectMapping> queryLabelId(SubjectMapping subjectMapping) {
         return this.subjectMappingDao.queryDistinctLabelId(subjectMapping);
     }
+
     /**
      * 批量插入数据
-     *
      */
     @Override
     public void batchInsert(List<SubjectMapping> mappingList) {

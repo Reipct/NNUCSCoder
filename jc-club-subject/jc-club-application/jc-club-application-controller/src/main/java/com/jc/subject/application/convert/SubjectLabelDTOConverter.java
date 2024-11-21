@@ -14,10 +14,22 @@ import java.util.List;
  */
 @Mapper
 public interface SubjectLabelDTOConverter {
-    SubjectLabelDTOConverter INSTANCE= Mappers.getMapper(SubjectLabelDTOConverter.class);
+    SubjectLabelDTOConverter INSTANCE = Mappers.getMapper(SubjectLabelDTOConverter.class);
 
+    /**
+     * Label:DTO->BO
+     *
+     * @param subjectLabelDTO
+     * @return
+     */
     SubjectLabelBO convertDTOToLabelBO(SubjectLabelDTO subjectLabelDTO);
 
+    /**
+     * LabelList:DTO->BO
+     *
+     * @param subjectLabelBOList
+     * @return
+     */
     List<SubjectLabelDTO> convertBOTOLabelDTOList(List<SubjectLabelBO> subjectLabelBOList);
 
 

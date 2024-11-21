@@ -2,6 +2,7 @@ package com.jc.subject.infra.basic.mapper;
 
 import com.jc.subject.infra.basic.entity.SubjectCategory;
 import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -62,13 +63,19 @@ public interface SubjectCategoryDao {
     int update(SubjectCategory subjectCategory);
 
     /**
-     * 通过主键删除数据
+     * 通过主键删除分类
      *
      * @param id 主键
      * @return 影响行数
      */
     int deleteById(Long id);
 
+    /**
+     * 查询分类
+     *
+     * @param subjectCategory
+     * @return
+     */
     List<SubjectCategory> queryCategory(SubjectCategory subjectCategory);
 }
 

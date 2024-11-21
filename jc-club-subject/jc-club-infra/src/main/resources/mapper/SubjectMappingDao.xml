@@ -93,6 +93,8 @@
             </if>
         </where>
     </select>
+
+
     <select id="queryDistinctLabelId" resultMap="SubjectMappingMap">
         select
         distinct label_id
@@ -126,7 +128,6 @@
                 and is_deleted = #{isDeleted}
             </if>
         </where>
-
     </select>
 
     <!--新增所有列-->

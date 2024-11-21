@@ -69,7 +69,23 @@ public interface SubjectLabelDao {
      */
     int deleteById(Long id);
 
+
+
+    /**
+     * 通过主键查找
+     *
+     * @param labelList 主键
+     * @return 影响行数
+     */
     List<SubjectLabel> batchQueryById(@Param("list") List<Long> labelList);
 
+
+    /**
+     * 查找
+     *
+     * @param subjectLabel 主键
+     * @return 影响行数
+     */
+    List<SubjectLabel> queryByCondition(SubjectLabel subjectLabel);
 }
 

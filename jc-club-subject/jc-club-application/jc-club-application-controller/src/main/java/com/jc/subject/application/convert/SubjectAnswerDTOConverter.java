@@ -10,9 +10,21 @@ import java.util.List;
 
 @Mapper
 public interface SubjectAnswerDTOConverter {
-    SubjectAnswerDTOConverter INSTANCE= Mappers.getMapper(SubjectAnswerDTOConverter.class);
+    SubjectAnswerDTOConverter INSTANCE = Mappers.getMapper(SubjectAnswerDTOConverter.class);
 
+    /**
+     * Answer：DTO->BO
+     *
+     * @param subjectAnswerDTO
+     * @return
+     */
     SubjectAnswerBO convertDTOToBO(SubjectAnswerDTO subjectAnswerDTO);
 
+    /**
+     * AnswerList：DTO->BO
+     *
+     * @param subjectAnswerDTO
+     * @return
+     */
     List<SubjectAnswerBO> convertListDTOToBO(List<SubjectAnswerDTO> subjectAnswerDTO);
 }

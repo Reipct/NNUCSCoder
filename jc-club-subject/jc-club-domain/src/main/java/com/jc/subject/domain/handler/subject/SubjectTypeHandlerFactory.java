@@ -11,6 +11,7 @@ import java.util.Map;
 
 /**
  * 题目类型工厂
+ *
  * @Author 12919
  * @Date 2024/11/11
  */
@@ -20,18 +21,18 @@ public class SubjectTypeHandlerFactory implements InitializingBean {
     @Resource
     private List<SubjectTypeHandler> subjectTypeHandlerList;
 
-    private Map<SubjectInfoTypeEnum,SubjectTypeHandler> handlerMap=new HashMap<>();
-    public SubjectTypeHandler getHandler(int subjectType){
-        SubjectInfoTypeEnum subjectInfoTypeEnum=SubjectInfoTypeEnum.getByCode(subjectType);
+    private Map<SubjectInfoTypeEnum, SubjectTypeHandler> handlerMap = new HashMap<>();
+
+
+    public SubjectTypeHandler getHandler(int subjectType) {
+        SubjectInfoTypeEnum subjectInfoTypeEnum = SubjectInfoTypeEnum.getByCode(subjectType);
         return handlerMap.get(subjectInfoTypeEnum);
-
-
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
         for (SubjectTypeHandler subjectTypeHandler : subjectTypeHandlerList) {
-            handlerMap.put(subjectTypeHandler.getHandlerType(),subjectTypeHandler);
+            handlerMap.put(subjectTypeHandler.getHandlerType(), subjectTypeHandler);
         }
     }
 }

@@ -3,6 +3,11 @@ package com.jc.subject.common.entity;
 import com.jc.subject.common.enums.ResultCodeEnum;
 import lombok.Data;
 
+/**
+ * 统一的接口响应格式
+ * @param <T>
+ */
+
 @Data
 public class Result<T> {
 

@@ -12,9 +12,6 @@ import java.util.List;
 
 /**
  * 题目分类(SubjectCategory)表服务实现类
- *
- * @author makejava
- * @since 2024-08-31 19:05:26
  */
 @Slf4j
 @Service("subjectCategoryService")
@@ -35,7 +32,7 @@ public class SubjectCategoryServiceImpl implements SubjectCategoryService {
 
 
     /**
-     * 新增数据
+     * 新增分类
      *
      * @param subjectCategory 实例对象
      * @return 实例对象
@@ -50,7 +47,7 @@ public class SubjectCategoryServiceImpl implements SubjectCategoryService {
     }
 
     /**
-     * 修改数据
+     * 修改分类
      *
      * @param subjectCategory 实例对象
      * @return 实例对象
@@ -61,7 +58,7 @@ public class SubjectCategoryServiceImpl implements SubjectCategoryService {
     }
 
     /**
-     * 通过主键删除数据
+     * 通过主键删除分类
      *
      * @param id 主键
      * @return 是否成功
@@ -71,6 +68,12 @@ public class SubjectCategoryServiceImpl implements SubjectCategoryService {
         return this.subjectCategoryDao.deleteById(id) > 0;
     }
 
+    /**
+     * 查询分类
+     *
+     * @param subjectCategory
+     * @return
+     */
     @Override
     public List<SubjectCategory> queryCategory(SubjectCategory subjectCategory) {
         return this.subjectCategoryDao.queryCategory(subjectCategory);

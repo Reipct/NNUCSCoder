@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 import java.util.List;
 
 /**
- * @Description MVC的全局处理
+ * @Description MVC的全局处理，忽略null字段
  * @Author szy
  * @Date 2024/11/13
  */

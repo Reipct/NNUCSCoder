@@ -10,8 +10,21 @@ import java.util.List;
 
 @Mapper
 public interface SubjectCategoryConverter {
-    SubjectCategoryConverter INSTANCE= Mappers.getMapper(SubjectCategoryConverter.class);
+    SubjectCategoryConverter INSTANCE = Mappers.getMapper(SubjectCategoryConverter.class);
+
+    /**
+     * Category:BO->Entity
+     *
+     * @param subjectCategoryBO
+     * @return
+     */
     SubjectCategory convertBoToCategory(SubjectCategoryBO subjectCategoryBO);
 
+    /**
+     * CategoryList:BO->Entity
+     *
+     * @param categoryList
+     * @return
+     */
     List<SubjectCategoryBO> convertBoToCategory(List<SubjectCategory> categoryList);
 }

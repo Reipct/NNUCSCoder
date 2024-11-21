@@ -106,7 +106,7 @@
         </where>
     </select>
 
-
+    <!--查询分类-->
     <select id="queryCategory" resultMap="SubjectCategoryMap">
         select *
         from subject_category
@@ -152,6 +152,7 @@
                 #{updateTime}, #{isDeleted})
     </insert>
 
+    <!--批量新增数据-->
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
         insert into subject_category(category_name, category_type, image_url, parent_id, created_by, created_time,
         update_by, update_time, is_deleted)
@@ -162,6 +163,7 @@
         </foreach>
     </insert>
 
+    <!--批量新增或按主键更新数据-->
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
         insert into subject_category(category_name, category_type, image_url, parent_id, created_by, created_time,
         update_by, update_time, is_deleted)

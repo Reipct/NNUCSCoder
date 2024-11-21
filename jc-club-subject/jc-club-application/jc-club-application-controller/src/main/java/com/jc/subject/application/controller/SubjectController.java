@@ -28,6 +28,9 @@ public class SubjectController {
 
     /**
      * 新增题目
+     *
+     * @param subjectInfoDTO
+     * @return
      */
     @PostMapping("/add")
     public Result<Boolean> add(@RequestBody SubjectInfoDTO subjectInfoDTO) {
@@ -42,7 +45,6 @@ public class SubjectController {
             Preconditions.checkArgument(!CollectionUtils.isEmpty(subjectInfoDTO.getCategoryIds()), "分类id不能为空");
             Preconditions.checkArgument(!CollectionUtils.isEmpty(subjectInfoDTO.getLabelIds()), "标签id不能为空");
 
-
             SubjectInfoBO subjectInfoBO = SubjectInfoDTOConverter.INSTANCE.convertDTOToBO(subjectInfoDTO);
             List<SubjectAnswerBO> subjectAnswerBOS = SubjectAnswerDTOConverter.INSTANCE.convertListDTOToBO(subjectInfoDTO.getOptionList());
             subjectInfoBO.setOptionList(subjectAnswerBOS);
@@ -56,6 +58,9 @@ public class SubjectController {
 
     /**
      * 查询题目列表
+     *
+     * @param subjectInfoDTO
+     * @return
      */
     @PostMapping("/getSubjectPage")
     public Result<PageResult<SubjectInfoDTO>> getSubjectPage(@RequestBody SubjectInfoDTO subjectInfoDTO) {
@@ -69,7 +74,7 @@ public class SubjectController {
             SubjectInfoBO subjectInfoBO = SubjectInfoDTOConverter.INSTANCE.convertDTOToBO(subjectInfoDTO);
             subjectInfoBO.setPageNo(subjectInfoDTO.getPageNo());
             subjectInfoBO.setPageSize(subjectInfoDTO.getPageSize());
-            PageResult<SubjectInfoBO> boPageResult=subjectInfoDomainService.getSubjectPage(subjectInfoBO);
+            PageResult<SubjectInfoBO> boPageResult = subjectInfoDomainService.getSubjectPage(subjectInfoBO);
             return Result.ok(boPageResult);
         } catch (Exception e) {
             log.error("subjectInfoDTO.getSubjectPage.error.{}", e.getMessage(), e);
@@ -77,9 +82,11 @@ public class SubjectController {
         }
     }
 
-
     /**
      * 查询题目详情
+     *
+     * @param subjectInfoDTO
+     * @return
      */
     @PostMapping("/querySubjectInfo")
     public Result<SubjectInfoDTO> querySubjectInfo(@RequestBody SubjectInfoDTO subjectInfoDTO) {
@@ -89,9 +96,8 @@ public class SubjectController {
             }
             Preconditions.checkNotNull(subjectInfoDTO.getId(), "题目id不能为空");
 
-
             SubjectInfoBO subjectInfoBO = SubjectInfoDTOConverter.INSTANCE.convertDTOToBO(subjectInfoDTO);
-            SubjectInfoBO boresult=subjectInfoDomainService.querySubjectInfo(subjectInfoBO);
+            SubjectInfoBO boresult = subjectInfoDomainService.querySubjectInfo(subjectInfoBO);
             SubjectInfoDTO result = SubjectInfoDTOConverter.INSTANCE.convertBOToDTO(boresult);
             return Result.ok(result);
         } catch (Exception e) {

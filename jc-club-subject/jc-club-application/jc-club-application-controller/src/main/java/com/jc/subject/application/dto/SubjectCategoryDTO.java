@@ -6,9 +6,6 @@ import java.io.Serializable;
 
 /**
  * 题目分类(SubjectCategory)实体类
- *
- * @author makejava
- * @since 2024-08-31 19:05:14
  */
 
 @Data

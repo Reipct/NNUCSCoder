@@ -1,5 +1,7 @@
 package com.jc.subject.infra.basic.entity;
 
+import lombok.Data;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -9,12 +11,17 @@ import java.io.Serializable;
  * @author makejava
  * @since 2024-10-30 10:14:55
  */
+@Data
 public class SubjectLabel implements Serializable {
     private static final long serialVersionUID = -44586313345712024L;
     /**
      * 主键
      */
     private Long id;
+    /**
+     * 分类id
+     */
+    private Long categoryId;
     /**
      * 标签分类
      */

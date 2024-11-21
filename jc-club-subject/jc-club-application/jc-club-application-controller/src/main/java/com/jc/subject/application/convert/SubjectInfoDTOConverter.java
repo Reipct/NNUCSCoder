@@ -8,10 +8,22 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface SubjectInfoDTOConverter {
-    SubjectInfoDTOConverter INSTANCE= Mappers.getMapper(SubjectInfoDTOConverter.class);
+    SubjectInfoDTOConverter INSTANCE = Mappers.getMapper(SubjectInfoDTOConverter.class);
 
+    /**
+     * Info：DTO->BO
+     *
+     * @param subjectInfoDTO
+     * @return
+     */
     SubjectInfoBO convertDTOToBO(SubjectInfoDTO subjectInfoDTO);
 
+    /**
+     * Info：BO->DTO
+     *
+     * @param subjectInfoBO
+     * @return
+     */
     SubjectInfoDTO convertBOToDTO(SubjectInfoBO subjectInfoBO);
 
 }

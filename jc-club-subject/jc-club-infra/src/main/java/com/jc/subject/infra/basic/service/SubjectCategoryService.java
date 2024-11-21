@@ -7,11 +7,7 @@ import java.util.List;
 
 /**
  * 题目分类(SubjectCategory)表服务接口
- *
- * @author makejava
- * @since 2024-08-31 19:05:26
  */
-
 public interface SubjectCategoryService {
 
     /**
@@ -22,7 +18,11 @@ public interface SubjectCategoryService {
      */
     SubjectCategory queryById(Long id);
 
-
+    /**
+     * 新增分类
+     * @param subjectCategory
+     * @return
+     */
     SubjectCategory insert(SubjectCategory subjectCategory);
 
     /**
@@ -41,6 +41,11 @@ public interface SubjectCategoryService {
      */
     boolean deleteById(Long id);
 
+    /**
+     * 查询分类
+     * @param subjectCategory
+     * @return
+     */
     List<SubjectCategory> queryCategory(SubjectCategory subjectCategory);
 
 }
