@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="jc-club-auth-infra" />
+        <module name="jc-club-auth-application-job" />
         <module name="jc-club-application-controller" />
         <module name="jc-club-auth-api" />
         <module name="jc-club-domain" />
