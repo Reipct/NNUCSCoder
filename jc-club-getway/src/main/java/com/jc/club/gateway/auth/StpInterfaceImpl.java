@@ -1,8 +1,14 @@
 package com.jc.club.gateway.auth;
 
 import cn.dev33.satoken.stp.StpInterface;
+import com.alibaba.nacos.common.utils.StringUtils;
+import com.google.gson.Gson;
+import com.jc.club.gateway.redis.RedisUtil;
+import io.netty.util.internal.StringUtil;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,22 +20,33 @@ import java.util.List;
 @Component
 public class StpInterfaceImpl implements StpInterface {
 
+    @Resource
+    private RedisUtil redisUtil;
+
+    private String authPermissionPrefix = "auth.permission";
+    private String authRolePrefix = "auth.role";
+
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
         // 返回此 loginId 拥有的权限列表
-        //redis缓存,没有的话调微服务去获取
-        List<String> permissionList =new LinkedList<>();
-        permissionList.add("subject:add");
-        return permissionList;
+        //redis缓存
+        return getAuth(loginId.toString(), authPermissionPrefix);
     }
 
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
         // 返回此 loginId 拥有的角色列表
-        List<String> adminList =new LinkedList<>();
-        adminList.add("admin");
-        return adminList;
+        return getAuth(loginId.toString(), authRolePrefix);
     }
 
+    private List<String> getAuth(String loginId, String prefix) {
+        String authKey = redisUtil.buildKey(prefix, loginId.toString());
+        String authValue = redisUtil.get(authKey);
+        if (StringUtils.isBlank(authValue)) {
+            return Collections.emptyList();
+        }
+        List<String> authList = new Gson().fromJson(authValue, List.class);
+        return authList;
+    }
 }
 
