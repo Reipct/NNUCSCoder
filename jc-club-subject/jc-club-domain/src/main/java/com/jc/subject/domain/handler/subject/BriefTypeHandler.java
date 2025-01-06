@@ -20,7 +20,6 @@ import javax.annotation.Resource;
 @Component
 public class BriefTypeHandler implements SubjectTypeHandler {
 
-
     @Resource
     private SubjectBriefService subjectBriefService;
 
@@ -28,7 +27,6 @@ public class BriefTypeHandler implements SubjectTypeHandler {
     public SubjectInfoTypeEnum getHandlerType() {
         return SubjectInfoTypeEnum.BRIFE;
     }
-
 
     @Override
     public void add(SubjectInfoBO subjectInfoBO) {

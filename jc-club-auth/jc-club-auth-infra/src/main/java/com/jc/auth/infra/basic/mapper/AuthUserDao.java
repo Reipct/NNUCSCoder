@@ -70,5 +70,14 @@ public interface AuthUserDao {
      */
     int deleteById(Long id);
 
+    /**
+     * 通过主键查找权限用户
+     *
+     * @param authUser 主键
+     * @return 影响行数
+     */
+    List<AuthUser> queryAllByLimit(AuthUser authUser);
+
+    List<AuthUser> listUserInfoByIds(List<String> userNameList);
 }
 

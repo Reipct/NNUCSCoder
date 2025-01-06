@@ -2,6 +2,8 @@ package com.jc.auth.infra.basic.service;
 
 import com.jc.auth.infra.basic.entity.AuthUser;
 
+import java.util.List;
+
 /**
  * 用户信息表(AuthUser)表服务接口
  *
@@ -33,7 +35,7 @@ public interface AuthUserService {
      * @param authUser 实例对象
      * @return 实例对象
      */
-    AuthUser update(AuthUser authUser);
+    Integer update(AuthUser authUser);
 
     /**
      * 通过主键删除数据
@@ -43,4 +45,7 @@ public interface AuthUserService {
      */
     boolean deleteById(Long id);
 
+    List<AuthUser> queryByCondition(AuthUser exitsAuthUser);
+
+    List<AuthUser> listUserInfoByIds(List<String> userNameList);
 }

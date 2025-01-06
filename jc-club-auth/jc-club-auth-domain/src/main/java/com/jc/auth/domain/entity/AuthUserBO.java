@@ -79,5 +79,7 @@ public class AuthUserBO implements Serializable {
      */
     private Integer isDeleted;
 
+    private boolean success;
+
 }
 

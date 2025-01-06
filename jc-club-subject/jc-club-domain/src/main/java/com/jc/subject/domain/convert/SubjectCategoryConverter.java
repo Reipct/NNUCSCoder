@@ -26,5 +26,5 @@ public interface SubjectCategoryConverter {
      * @param categoryList
      * @return
      */
-    List<SubjectCategoryBO> convertBoToCategory(List<SubjectCategory> categoryList);
+    List<SubjectCategoryBO> convertCategoryToBo(List<SubjectCategory> categoryList);
 }

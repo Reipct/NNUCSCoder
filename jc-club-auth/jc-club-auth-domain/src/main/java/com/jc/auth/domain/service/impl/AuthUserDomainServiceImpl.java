@@ -3,7 +3,9 @@ package com.jc.auth.domain.service.impl;
 import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
+import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
+import com.jc.auth.common.entity.Result;
 import com.jc.auth.common.enums.AuthUserStatusEnum;
 import com.jc.auth.common.enums.IsDeleteFlagEnum;
 import com.jc.auth.domain.constants.AuthConstant;
@@ -13,13 +15,19 @@ import com.jc.auth.domain.redis.RedisUtil;
 import com.jc.auth.domain.service.AuthUserDomainService;
 import com.jc.auth.infra.basic.entity.*;
 import com.jc.auth.infra.basic.service.*;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,22 +46,30 @@ public class AuthUserDomainServiceImpl implements AuthUserDomainService {
     private AuthPermissionService authPermissionService;
     @Resource
     private AuthRolePermissionService authRolePermissionService;
-    private String salt = "NNUCS";
+    private String salt = "jichi";
 
     @Resource
     private RedisUtil redisUtil;
-
-    private static final String LOGIN_PREFIX = "loginCode";
 
     private String authPermissionPrefix = "auth.permission";
 
     private String authRolePrefix = "auth.role";
 
+    private static final String LOGIN_PREFIX = "loginCode";
+
     @Override
     @SneakyThrows
     @Transactional(rollbackFor = Exception.class)
     public boolean register(AuthUserBO authUserBO) {
-        AuthUser authUser = AuthUserBOConverter.INSTANCE.convertBOToEntityAuth(authUserBO);
+
+        //校验用户是否存在
+        AuthUser exitsAuthUser = new AuthUser();
+        exitsAuthUser.setUserName(authUserBO.getUserName());
+        List<AuthUser> exitsUser = authUserService.queryByCondition(exitsAuthUser);
+        if (exitsUser.size() > 0)
+            return true;
+
+        AuthUser authUser = AuthUserBOConverter.INSTANCE.convertBOToEntity(authUserBO);
         if (StringUtils.isNotBlank(authUser.getPassword()))
             authUser.setPassword(SaSecureUtil.md5BySalt(authUser.getPassword(), salt));
 
@@ -106,8 +122,69 @@ public class AuthUserDomainServiceImpl implements AuthUserDomainService {
         authUserBO.setUserName(openId);
         this.register((authUserBO));
         StpUtil.login(openId);
-        SaTokenInfo tokenInfo=StpUtil.getTokenInfo();
+        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
         return tokenInfo;
     }
+
+    @Override
+    public Boolean update(AuthUserBO authUserBO) {
+        AuthUser authUser = AuthUserBOConverter.INSTANCE.convertBOToEntity(authUserBO);
+        int update = authUserService.update(authUser);
+        return update > 0;
+    }
+
+    @Override
+    public Boolean delete(AuthUserBO authUserBO) {
+        AuthUser authUser = AuthUserBOConverter.INSTANCE.convertBOToEntity(authUserBO);
+        authUser.setIsDeleted(IsDeleteFlagEnum.DELETED.getCode());
+        Integer update = authUserService.update(authUser);
+        return update > 0;
+    }
+    //服务熔断机制
+    @HystrixCommand(fallbackMethod = "getUserInfoFallback",commandProperties = {
+            @HystrixProperty(name = "circuitBreaker.enabled",value = "true"),// 是否开启断路器
+            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold",value = "10"),// 请求次数
+            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds",value = "10000"), // 时间窗口期
+            @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage",value = "60"),// 失败率达到多少后跳闸
+    })
+    @Override
+    public AuthUserBO getUserInfo(AuthUserBO authUserBO) {
+        AuthUser authUser = AuthUserBOConverter.INSTANCE.convertBOToEntity(authUserBO);
+        List<AuthUser> authUserList = authUserService.queryByCondition(authUser);
+        if (CollectionUtils.isEmpty(authUserList))
+            return new AuthUserBO();
+        AuthUser user = authUserList.get(0);
+        return AuthUserBOConverter.INSTANCE.convertEntityToBO(user);
+    }
+    public AuthUserBO getUserInfoFallback(){
+        AuthUserBO authUserBO = new AuthUserBO();
+        authUserBO.setSuccess(false);
+        return authUserBO;
+    }
+
+    @Override
+    public List<AuthUserBO> listUserInfoByIds(List<String> userNameList) {
+        List<AuthUser> userList = authUserService.listUserInfoByIds(userNameList);
+        if (CollectionUtils.isEmpty(userList)) {
+            return Collections.emptyList();
+        }
+        return AuthUserBOConverter.INSTANCE.convertEntityToBO(userList);
+    }
+    /**
+     * 用户退出
+     */
+    @RequestMapping("logOut")
+    public Result logOut(@RequestParam String userName) {
+        try {
+            log.info("UserController.logOut.userName:{}", userName);
+            Preconditions.checkArgument(!StringUtils.isBlank(userName), "用户名不能为空");
+            StpUtil.logout(userName);
+            return Result.ok();
+        } catch (Exception e) {
+            log.error("UserController.logOut.error:{}", e.getMessage(), e);
+            return Result.fail("用户登出失败");
+        }
+    }
+
 
 }

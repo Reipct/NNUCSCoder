@@ -51,12 +51,12 @@ public class MultipleTypeHandler implements SubjectTypeHandler {
 
     @Override
     public SubjectOptionBO query(int subjectId) {
-        SubjectMultiple subjectMultiple=new SubjectMultiple();
+        SubjectMultiple subjectMultiple = new SubjectMultiple();
         subjectMultiple.setSubjectId(Long.valueOf(subjectId));
-        List<SubjectMultiple> result=subjectMultipleService.queryByCondition(subjectMultiple);
+        List<SubjectMultiple> result = subjectMultipleService.queryByCondition(subjectMultiple);
 
-        List<SubjectAnswerBO> subjectAnswerBOList= MultipleSubjectConverter.INSTANCE.convertEntityToBOList(result);
-        SubjectOptionBO subjectOptionBO=new SubjectOptionBO();
+        List<SubjectAnswerBO> subjectAnswerBOList = MultipleSubjectConverter.INSTANCE.convertEntityToBOList(result);
+        SubjectOptionBO subjectOptionBO = new SubjectOptionBO();
         subjectOptionBO.setOptionList(subjectAnswerBOList);
 
         return subjectOptionBO;

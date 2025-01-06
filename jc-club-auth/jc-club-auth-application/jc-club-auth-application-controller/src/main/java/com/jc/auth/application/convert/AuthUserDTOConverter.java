@@ -5,6 +5,8 @@ import com.jc.auth.domain.entity.AuthUserBO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * @Description 用户DTO转换器
  * @Author 12919
@@ -20,6 +22,9 @@ public interface AuthUserDTOConverter {
      * @param authUserDTO
      * @return
      */
-    AuthUserBO convertDTOToBOAuth(AuthUserDTO authUserDTO);
 
+    AuthUserBO convertDTOToBO(AuthUserDTO authUserDTO);
+
+    AuthUserDTO convertBOToDTO(AuthUserBO authUserBO);
+    List<AuthUserDTO> convertBOToDTO(List<AuthUserBO> authUserBO);
 }

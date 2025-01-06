@@ -9,12 +9,14 @@ public interface SubjectCategoryDomainService {
 
     /**
      * 新增分类
+     *
      * @param subjectCategoryBO
      */
     void add(SubjectCategoryBO subjectCategoryBO);
 
     /**
      * 查询岗位大类
+     *
      * @param subjectCategoryBO
      * @return
      */
@@ -22,6 +24,7 @@ public interface SubjectCategoryDomainService {
 
     /**
      * 更新分类
+     *
      * @param subjectCategoryBO
      * @return
      */
@@ -29,9 +32,18 @@ public interface SubjectCategoryDomainService {
 
     /**
      * 删除分类
+     *
      * @param subjectCategoryBO
      * @return
      */
     Boolean delete(SubjectCategoryBO subjectCategoryBO);
 
+
+    /**
+     * 查询分类及标签一次性
+     *
+     * @param subjectCategoryBO
+     * @return
+     */
+    List<SubjectCategoryBO> queryCategoryAndLabel(SubjectCategoryBO subjectCategoryBO);
 }

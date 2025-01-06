@@ -29,7 +29,6 @@ public class MinioStorageAdapter implements StorageAdapter {
     private String url;
 
 
-
     @Override
     @SneakyThrows
     public void createBucket(String bucket) {
@@ -75,5 +74,11 @@ public class MinioStorageAdapter implements StorageAdapter {
     @SneakyThrows
     public void deleteObject(String bucket, String objectName) {
         minioUtil.deleteObject(bucket, objectName);
+    }
+
+    @Override
+    @SneakyThrows
+    public String getUrl(String bucket, String objectName) {
+        return url + "/" + bucket + "/" + objectName;
     }
 }

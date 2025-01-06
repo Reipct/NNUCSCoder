@@ -3,6 +3,8 @@ package com.jc.auth.domain.service;
 import com.jc.auth.domain.entity.AuthPermissionBO;
 import com.jc.auth.domain.entity.AuthRoleBO;
 
+import java.util.List;
+
 public interface AuthPermissionDomainService {
 
     /**
@@ -22,4 +24,11 @@ public interface AuthPermissionDomainService {
      * @param authPermissionBO
      */
     boolean delete(AuthPermissionBO authPermissionBO);
+
+
+    /**
+     * 查询用户权限
+     * @param userName
+     */
+    List<String> getPermission(String userName);
 }

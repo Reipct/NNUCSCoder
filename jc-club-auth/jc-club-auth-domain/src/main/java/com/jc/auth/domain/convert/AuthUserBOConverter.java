@@ -6,6 +6,8 @@ import com.jc.auth.infra.basic.entity.AuthUser;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * @Description 用户BO转换器
  * @Author 12919
@@ -15,11 +17,11 @@ import org.mapstruct.factory.Mappers;
 public interface AuthUserBOConverter {
     AuthUserBOConverter INSTANCE= Mappers.getMapper(AuthUserBOConverter.class);
 
-    /**
-     * Auth:BO->Entity
-     * @param authUserBO
-     * @return
-     */
-    AuthUser convertBOToEntityAuth(AuthUserBO authUserBO);
 
+
+    AuthUserBO convertEntityToBO(AuthUser authUser);
+
+    List<AuthUserBO> convertEntityToBO(List<AuthUser> authUserList);
+
+    AuthUser convertBOToEntity(AuthUserBO authUserBO);
 }
